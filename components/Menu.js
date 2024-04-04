@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import { useNavigation } from '@react-navigation/native';
 
 const Menu = () => {
-  const navigation = useNavigation(); // Access navigation object
+  const navigation = useNavigation();
 
   return (
     <View style={styles.container}>
@@ -21,11 +21,9 @@ const Menu = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    padding: 10,
-    backgroundColor: '#eee',
+    justifyContent: 'center',
+    margin: 20,
+    padding: 20,
   },
 });
 
