@@ -1,20 +1,30 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { BookProvider } from './contexts/BookContext'; // Import the BookProvider
+import BookFormScreen from './screens/BookFormScreen';
+import BookListScreen from './screens/BookListScreen';
+import Menu from './components/Menu';
 
-export default function App() {
+const Stack = createStackNavigator();
+
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <BookProvider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="BookList">
+          <Stack.Screen name="BookList" component={BookListScreen} options={{ headerTitle: 'Book List' }} />
+          <Stack.Screen name="BookForm" component={BookFormScreen} options={{ headerTitle: 'Add Book' }} />
+        </Stack.Navigator>
+        <Menu />
+      </NavigationContainer>
+    </BookProvider>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
+
+// TODO add a screen and component for setting a due date and "loaning a book out"
+// TODO add a screen for loaned out books, sorted by the due date
+// TODO add a way to delete books
+// TODO add a way to make books "returned"
