@@ -1,9 +1,9 @@
 import React, { useContext, useEffect } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert, Button } from 'react-native';
 import BookContext from '../contexts/BookContext'; // Import the BookContext
 
 const DueBooksScreen = () => {
-  const { books } = useContext(BookContext); // Access books array from context
+  const { books, updateBook } = useContext(BookContext); // Access books array and updateBook function from context
 
   // Filter books with a loan date
   const dueBooks = books.filter((book) => book.loan);
@@ -21,6 +21,11 @@ const DueBooksScreen = () => {
     });
   }, [dueBooks]);
 
+  // Function to handle book return
+  const handleReturnBook = (bookId) => {
+    updateBook(bookId, { loan: null }); // Set due date to null for the returned book
+  };
+
   return (
     <View style={styles.container}>
       {dueBooks.map((book) => (
@@ -28,6 +33,7 @@ const DueBooksScreen = () => {
           <Text style={styles.title}>{book.title}</Text>
           <Text style={styles.author}>Author: {book.author}</Text>
           <Text style={styles.loan}>Due date: {book.loan.toLocaleDateString('en-US')}</Text>
+          <Button title="Returned" onPress={() => handleReturnBook(book.id)} />
         </View>
       ))}
     </View>

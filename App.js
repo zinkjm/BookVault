@@ -25,10 +25,5 @@ const App = () => {
 
 export default App;
 
-// TODO add a loaned date
-// TODO add a loaned out screen
-// TODO if due date is passed, show a warning!
-// TODO add a delete book button
-// TODO add a search bar?
-// TODO add a shelf entry
-// TODO add a shelf screen?
+// TODO add a delete book button?
+// Style to look better

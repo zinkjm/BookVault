@@ -9,8 +9,20 @@ export const BookProvider = ({ children }) => {
     setBooks([...books, book]);
   };
 
+  // Function to update book details
+  const updateBook = (id, newData) => {
+    setBooks((prevBooks) =>
+      prevBooks.map((book) => (book.id === id ? { ...book, ...newData } : book))
+    );
+  };
+  
+  // Function to set the loan property to null for a book
+  const returnBook = (id) => {
+    updateBook(id, { loan: null });
+  };
+
   return (
-    <BookContext.Provider value={{ books, addBook }}>
+    <BookContext.Provider value={{ books, addBook, updateBook, returnBook }}>
       {children}
     </BookContext.Provider>
   );
