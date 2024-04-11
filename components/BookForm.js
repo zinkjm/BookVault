@@ -1,54 +1,69 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button } from 'react-native';
+import DatePicker from 'react-native-datepicker';
 
 const BookForm = ({ onSubmit }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
-  const [genre, setGenre] = useState('');
+  const [shelf, setShelf] = useState('');
+  const [loan, setLoan] = useState(new Date().toISOString()); // Initialize loan state with current date
+
 
   const handleSubmit = () => {
-    onSubmit(title, author, genre);
+    onSubmit(title, author, shelf, loan);
     setTitle('');
     setAuthor('');
-    setGenre('');
+    setShelf('');
+    setLoan('');
   };
 
   return (
-    <View style={styles.container}>
+    <View>
       <TextInput
-        style={styles.input}
+        style={styles.textBoxStyle}
         value={title}
         onChangeText={setTitle}
         placeholder="Title"
       />
       <TextInput
-        style={styles.input}
+        style={styles.textBoxStyle}
         value={author}
         onChangeText={setAuthor}
         placeholder="Author"
       />
       <TextInput
-        style={styles.input}
-        value={genre}
-        onChangeText={setGenre}
-        placeholder="Genre"
+        style={styles.textBoxStyle}
+        value={shelf}
+        onChangeText={setShelf}
+        placeholder="Shelf"
       />
-      <Button title="Add Book" onPress={handleSubmit} />
+        <DatePicker
+        style={{ width: 200 }}
+        date={loan}
+        mode="date"
+        placeholder="Select Loan Date"
+        format="YYYY-MM-DD"
+        minDate="2020-01-01"
+        maxDate="2025-12-31"
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        customStyles={{
+          dateIcon: {
+            position: 'absolute',
+            left: 0,
+            top: 4,
+            marginLeft: 0,
+          },
+          dateInput: {
+            marginLeft: Platform.OS === 'ios' ? 36 : 0,
+          },
+          // You can add more custom styles as needed
+        }}
+        onDateChange={(date) => setLoan(date)}
+      />
+      <Button title="Add Book" className={styles.buttonStyle} onPress={handleSubmit} />
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    margin: 20,
-  },
-  input: {
-    marginBottom: 10,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-  },
-});
 
 export default BookForm;

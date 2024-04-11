@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-
+// TODO not being used?
 const BookList = ({ books }) => {
   return (
     <View style={styles.container}>
@@ -11,7 +11,7 @@ const BookList = ({ books }) => {
           <View style={styles.bookItem}>
             <Text>{item.title}</Text>
             <Text>{item.author}</Text>
-            <Text>{item.genre}</Text>
+            <Text>{item.title}</Text>
           </View>
         )}
       />
