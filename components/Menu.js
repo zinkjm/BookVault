@@ -15,6 +15,10 @@ const Menu = () => {
         title="Add Book"
         onPress={() => navigation.navigate('BookForm')}
       />
+      <Button
+        title="Lent out Books"
+        onPress={() => navigation.navigate('DueBooks')}
+      />
     </View>
   );
 };
@@ -24,6 +28,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     margin: 20,
     padding: 20,
+    backgroundColor: 'none',
   },
 });
 

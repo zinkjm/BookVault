@@ -5,7 +5,7 @@ import BookContext from '../contexts/BookContext'; // Import the BookContext
 const BookListScreen = () => {
   const { books } = useContext(BookContext); // Access books array from context
 
-  // Function to group books by shelf
+  // Function to group books by shelf and sort by shelf name
   const groupBooksByShelf = () => {
     const groupedBooks = books.reduce((acc, book) => {
       const shelf = book.shelf || 'Unknown';
@@ -16,10 +16,14 @@ const BookListScreen = () => {
       return acc;
     }, {});
 
-    return Object.keys(groupedBooks).map((shelf) => ({
-      title: shelf,
-      data: groupedBooks[shelf],
-    }));
+    const sortedSections = Object.keys(groupedBooks)
+      .sort() // Sort shelf names alphabetically
+      .map((shelf) => ({
+        title: shelf,
+        data: groupedBooks[shelf],
+      }));
+
+    return sortedSections;
   };
 
   return (
@@ -31,7 +35,7 @@ const BookListScreen = () => {
           <View style={styles.item}>
             <Text style={styles.title}>{item.title}</Text>
             <Text style={styles.author}>Author: {item.author}</Text>
-            <Text style={styles.loan}>lent out: {item.loan}</Text>
+            <Text style={styles.loan}>Due date: {item.loan ? item.loan.toLocaleDateString('en-US') : 'No due date'}</Text>
           </View>
         )}
         renderSectionHeader={({ section: { title } }) => (
@@ -63,7 +67,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 4,
   },
-  genre: {
+  loan: {
     fontSize: 14,
     color: '#666',
   },

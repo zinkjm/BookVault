@@ -12,7 +12,7 @@ const BookFormScreen = ({ navigation }) => {
   };
 
   return (
-    <View className={styles.formContainer}>
+    <View>
       <BookForm onSubmit={handleAddBook} />
     </View>
   );

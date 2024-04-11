@@ -1,69 +1,87 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button } from 'react-native';
-import DatePicker from 'react-native-datepicker';
+import { View, Platform, Button, Text, TextInput, StyleSheet } from 'react-native';
+import DateTimePicker from '@react-native-community/datetimepicker'; // Import DateTimePicker
 
 const BookForm = ({ onSubmit }) => {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [shelf, setShelf] = useState('');
-  const [loan, setLoan] = useState(new Date().toISOString()); // Initialize loan state with current date
-
+  const [loan, setLoan] = useState(null);
+  const [showDatePicker, setShowDatePicker] = useState(false); // Show DatePicker initially set to false
 
   const handleSubmit = () => {
-    onSubmit(title, author, shelf, loan);
+    onSubmit(title, author, loan, shelf);
     setTitle('');
     setAuthor('');
     setShelf('');
     setLoan('');
   };
 
+  const handleDateChange = (event, selectedDate) => {
+    setShowDatePicker(Platform.OS === 'ios'); // Show DatePicker only for iOS
+    if (selectedDate) {
+      setLoan(selectedDate);
+    }
+  };
+
   return (
     <View>
       <TextInput
-        style={styles.textBoxStyle}
         value={title}
         onChangeText={setTitle}
         placeholder="Title"
       />
       <TextInput
-        style={styles.textBoxStyle}
         value={author}
         onChangeText={setAuthor}
         placeholder="Author"
       />
       <TextInput
-        style={styles.textBoxStyle}
         value={shelf}
         onChangeText={setShelf}
         placeholder="Shelf"
       />
-        <DatePicker
-        style={{ width: 200 }}
-        date={loan}
-        mode="date"
-        placeholder="Select Loan Date"
-        format="YYYY-MM-DD"
-        minDate="2020-01-01"
-        maxDate="2025-12-31"
-        confirmBtnText="Confirm"
-        cancelBtnText="Cancel"
-        customStyles={{
-          dateIcon: {
-            position: 'absolute',
-            left: 0,
-            top: 4,
-            marginLeft: 0,
-          },
-          dateInput: {
-            marginLeft: Platform.OS === 'ios' ? 36 : 0,
-          },
-          // You can add more custom styles as needed
-        }}
-        onDateChange={(date) => setLoan(date)}
-      />
-      <Button title="Add Book" className={styles.buttonStyle} onPress={handleSubmit} />
+      <Text>Expected return: </Text>
+      <Button
+          title={loan ? loan.toLocaleDateString('en-US') : 'No due date'}
+          onPress={() => setShowDatePicker(true)}
+          style={styles.datePickerButton} // Apply custom style to the button
+        />
+        {showDatePicker && (
+          <DateTimePicker
+            value={new Date()}
+            mode="date"
+            display="spinner"
+            onChange={handleDateChange}
+          />
+        )}
+
+      <Button title="Add Book" onPress={handleSubmit} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  formContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  datePickerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 16,
+  },
+  datePickerButton: {
+    flex: 1,
+    backgroundColor: '#f0f0f0',
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 8,
+    padding: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default BookForm;
