@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Platform, Button, Text, TextInput, StyleSheet } from 'react-native';
+import { View, Platform, TouchableOpacity, Text, TextInput, StyleSheet } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker'; // Import DateTimePicker
 
 const BookForm = ({ onSubmit }) => {
@@ -26,61 +26,83 @@ const BookForm = ({ onSubmit }) => {
 
   return (
     <View>
-      <TextInput
-        value={title}
-        onChangeText={setTitle}
-        placeholder="Title"
-      />
-      <TextInput
-        value={author}
-        onChangeText={setAuthor}
-        placeholder="Author"
-      />
-      <TextInput
-        value={shelf}
-        onChangeText={setShelf}
-        placeholder="Shelf"
-      />
-      <Text>Expected return: </Text>
-      <Button
-          title={loan ? loan.toLocaleDateString('en-US') : 'No due date'}
-          onPress={() => setShowDatePicker(true)}
-          style={styles.datePickerButton} // Apply custom style to the button
+      <View style={styles.rowContainer}>
+        <TextInput
+          value={title}
+          onChangeText={setTitle}
+          placeholder="Title"
+          style={styles.input}
         />
-        {showDatePicker && (
-          <DateTimePicker
-            value={new Date()}
-            mode="date"
-            display="spinner"
-            onChange={handleDateChange}
-          />
-        )}
+        <TextInput
+          value={author}
+          onChangeText={setAuthor}
+          placeholder="Author"
+          style={styles.input}
+        />
+      </View>
+      <View style={styles.rowContainer}>
+        <TextInput
+          value={shelf}
+          onChangeText={setShelf}
+          placeholder="Shelf"
+          style={styles.input}
+        />
+        <Text>Expected return: </Text>
+        <TouchableOpacity
+          style={styles.datePickerButton}
+          onPress={() => setShowDatePicker(true)}
+        >
+          <Text style={styles.buttonText}>{loan ? loan.toLocaleDateString('en-US') : 'Add due date'}</Text>
+        </TouchableOpacity>
+      </View>
+      {showDatePicker && (
+        <DateTimePicker
+          value={new Date()}
+          mode="date"
+          display="spinner"
+          onChange={handleDateChange}
+        />
+      )}
 
-      <Button title="Add Book" onPress={handleSubmit} />
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleSubmit}
+      >
+        <Text style={styles.buttonText}>Add Book</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  formContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  datePickerContainer: {
+  rowContainer: {
+    marginTop: 20,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 16,
+    marginBottom: 10,
+  },
+  input: {
+    flex: 1,
+    marginRight: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    padding: 8,
   },
   datePickerButton: {
-    flex: 1,
-    backgroundColor: '#f0f0f0',
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 8,
-    justifyContent: 'center',
+    backgroundColor: '#ADD8E6',
+    padding: 10,
+    borderRadius: 5,
+  },
+  button: {
+    backgroundColor: '#ADD8E6',
+    padding: 10,
+    borderRadius: 5,
     alignItems: 'center',
+  },
+  buttonText: {
+    color: '#000',
+    fontWeight: 'bold',
   },
 });
 

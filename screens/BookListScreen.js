@@ -48,9 +48,11 @@ const BookListScreen = () => {
         keyExtractor={(item, index) => item.title + index}
         renderItem={({ item }) => (
           <View style={styles.item}>
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.author}>Author: {item.author}</Text>
-            <Text style={styles.loan}>Due date: {item.loan ? item.loan.toLocaleDateString('en-US') : 'No due date'}</Text>
+            <View style={styles.infoContainer}>
+              <Text style={styles.title}>{item.title}</Text>
+              <Text style={styles.author}>Author: {item.author}</Text>
+              <Text style={styles.loan}>Due date: {item.loan ? item.loan.toLocaleDateString('en-US') : 'No due date'}</Text>
+            </View>
             <TouchableOpacity onPress={() => handleLendOut(item)} style={styles.button}>
               <Text style={styles.buttonText}>Lend Out</Text>
             </TouchableOpacity>
@@ -79,11 +81,17 @@ const styles = StyleSheet.create({
     marginHorizontal: 16,
   },
   item: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
     padding: 12,
     marginBottom: 8,
+  },
+  infoContainer: {
+    flex: 1,
   },
   title: {
     fontSize: 18,
@@ -101,8 +109,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ADD8E6', // Light blue background
     padding: 10,
     borderRadius: 5,
-    marginTop: 10,
-    alignSelf: 'flex-end', // Align to the right
+    alignSelf: 'center', // Align to the right
   },
   buttonText: {
     color: 'black', // Black text color
