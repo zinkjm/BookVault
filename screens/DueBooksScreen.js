@@ -6,7 +6,7 @@ const DueBooksScreen = () => {
   const { books, updateBook } = useContext(BookContext); // Access books array and updateBook function from context
 
   // Filter books with a loan date
-  const dueBooks = books.filter((book) => book.loan !== null);
+  const dueBooks = books.filter((book) => book.loan);
 
   // Sort books by loan date in ascending order
   dueBooks.sort((a, b) => new Date(a.loan) - new Date(b.loan));
