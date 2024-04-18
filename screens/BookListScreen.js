@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, Button, TouchableOpacity, SectionList, StyleSheet, Platform } from 'react-native'; // Import Platform from 'react-native'
+import { View, Text, TouchableOpacity, SectionList, StyleSheet, Platform } from 'react-native';
 import BookContext from '../contexts/BookContext'; // Import the BookContext
 import DateTimePicker from '@react-native-community/datetimepicker'; // Import DateTimePicker
 
@@ -32,12 +32,15 @@ const BookListScreen = () => {
   const handleDateChange = (event, selectedDate) => {
     setShowDatePicker(Platform.OS === 'ios'); // Show DatePicker only for iOS
     if (selectedDate && selectedBook) {
+      // assign the book a unique id
+      selectedBook.id = selectedBook.title + selectedBook.author;
       updateBook(selectedBook.id, { loan: selectedDate }); // Update the loan property of the selected book with the selected date
+      console.log(`ID OF BOOK: ${selectedBook.id}`);
     }
   };
 
   const handleLendOut = (book) => {
-    setSelectedBook(book);
+    setSelectedBook(book); // Set the selected book when lending out
     setShowDatePicker(true); // Show the date picker when lending out a book
   };
 
