@@ -24,6 +24,3 @@ const App = () => {
 };
 
 export default App;
-
-// TODO add a delete book button?
-// Style to look better
